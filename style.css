@@ -855,41 +855,20 @@ footer::after {
     font-size: 14px;
   }
 }
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   .parallax-container {
-    display: flex;
-    flex-direction: column; /* элементы идут друг за другом */
-    align-items: center;
-    height: auto; /* больше не фиксируем высоту */
-  }
-   .parallax {
-    position: relative;
-    width: 100%;
-    height: 50vh; /* на телефоне картинка по высоте половины экрана */
-    overflow: hidden;
-  }
-   .parallax .layer {
-    width: 100%;
-    height: 100%;
-    left: 0;
-    object-fit: cover;
+    display: none; /* убираем параллакс полностью */
   }
   .glass-block {
-    position: relative; /* убираем абсолютное позиционирование */
+    position: relative;   /* убираем абсолют */
     top: auto;
     left: auto;
     transform: none;
-    width: 90%;         /* почти вся ширина */
-    margin: 20px auto;  /* отступы */
-    padding: 15px;
-    font-size: 14px;
+    width: 90%;
+    margin: 40px auto;    /* центрируем */
+    padding: 20px;
+    font-size: 16px;
   }
-  .glass-block h2 {
-    font-size: 22px;
-    text-align: center;
-  }
-}
-@media (max-width: 768px) {
    main { padding: 0 25px; }
    .header { padding: 0 15px; }
    .menu-toggle { display: block; }
