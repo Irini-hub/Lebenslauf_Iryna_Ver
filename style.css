@@ -754,21 +754,17 @@ footer::after {
    left: 0;
    z-index: 9999; /* Всегда поверх всех элементов */
    pointer-events: none; /* ВАЖНО: Делает элемент "прозрачным" для кликов мыши */
-
    /* 2. Форма и размер (около 10 см) */
    width: 350px;
-   height: 350px;
-    
+   height: 350px;   
    /* 3. Центрирование пятна на кончике курсора */
-   transform: translate(-50%, -50%);
-    
+   transform: translate(-50%, -50%);   
    /* 4. Сам эффект свечения с размытием */
    background: radial-gradient(
       circle,
       rgba(100, 255, 218, 0.04) 0%, /* Цвет в центре (0.04-прозрачность) */
       rgba(100, 255, 218, 0) 70%    /* Тот же цвет, но полностью прозрачный на краях */
    );
-
    /* 5. Плавность движения */
    transition: transform 0.1s ease-out;
 }
@@ -785,12 +781,10 @@ footer::after {
    color: var(--light-slate); /* Изначальный цвет значков */
    transition: transform 0.3s ease-out, color 0.3s ease-out; /* Плавность анимации */
 }
-
 .social-links a:hover {
    color: var(--green); /* Цвет при наведении */
    transform: translateY(-5px); /* Эффект "подпрыгивания" */
 }
-
 .social-links svg {
    width: 28px; /* Размер значков */
    height: 28px;
@@ -819,14 +813,12 @@ footer::after {
    transform: translateY(10px);
    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
 }
-
 .arrow-container.show {
    opacity: 1;
    pointer-events: auto;
    transform: translateY(0);
    cursor: pointer;
 }
-
 .arrow-container:hover {
    background: rgba(17, 34, 64, 0.95);
 }
@@ -865,7 +857,36 @@ footer::after {
 }
 @media screen and (max-width: 768px) {
   .parallax-container {
-    height: 70vh;   /* ниже, чем на десктопе */
+    display: flex;
+    flex-direction: column; /* элементы идут друг за другом */
+    align-items: center;
+    height: auto; /* больше не фиксируем высоту */
+  }
+   .parallax {
+    position: relative;
+    width: 100%;
+    height: 50vh; /* на телефоне картинка по высоте половины экрана */
+    overflow: hidden;
+  }
+   .parallax .layer {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    object-fit: cover;
+  }
+  .glass-block {
+    position: relative; /* убираем абсолютное позиционирование */
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 90%;         /* почти вся ширина */
+    margin: 20px auto;  /* отступы */
+    padding: 15px;
+    font-size: 14px;
+  }
+  .glass-block h2 {
+    font-size: 22px;
+    text-align: center;
   }
 }
 @media (max-width: 768px) {
@@ -899,12 +920,6 @@ footer::after {
    }
    .main-menu li { margin: 0; }
    .main-menu a { display: block; padding: 12px 4px; }
-   .parallax .layer {
-    transform: none !important;  /* отключить движение */
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
    .resume-btn { padding: 0.55rem 0.8rem; font-size: 14px; }/* Кнопка Lebenslauf компактнее */
    .about-pic { display: none; }
    .experience-tabs { flex-direction: column; }
