@@ -146,15 +146,29 @@ document.addEventListener('DOMContentLoaded', () => {  // Весь код зап
       });
    });
 
-   //================Parallax
-   document.addEventListener("mousemove", (e) => {
-   document.querySelectorAll(".layer").forEach(layer => {
-      const speed = layer.getAttribute("data-speed");
-      const x = (window.innerWidth - e.pageX * speed) / 100;
-      const y = (window.innerHeight - e.pageY * speed) / 100;
-      layer.style.transform = `translateX(${x}px) translateY(${y}px)`;
-   });
-   });
+   ///================ Parallax ==================//
+function applyParallax(x, y) {
+  document.querySelectorAll(".layer").forEach(layer => {
+    const speed = layer.getAttribute("data-speed");
+    const offsetX = (window.innerWidth - x * speed) / 100;
+    const offsetY = (window.innerHeight - y * speed) / 100;
+    layer.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
+  });
+}
+
+// ---- Десктоп (мышь) ----
+document.addEventListener("mousemove", (e) => {
+  applyParallax(e.pageX, e.pageY);
+});
+
+// ---- Мобильные (пальцы) ----
+document.addEventListener("touchmove", (e) => {
+  if (e.touches.length > 0) {
+    const touch = e.touches[0];
+    applyParallax(touch.pageX, touch.pageY);
+  }
+}, { passive: true });
+
 
    // ======= Мобильное меню (бургер) =======
   const menuToggle = document.querySelector('.menu-toggle');
