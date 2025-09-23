@@ -34,10 +34,6 @@ section {
    max-width: 1200px; /* макс.ширина текстового блока*/
    margin: 0 auto;    /* центрируем */
 }
-
-main { 
-   /*padding: 0 150px; */
-}
 a {
    color: var(--green); 
    text-decoration: none;
@@ -178,7 +174,7 @@ a:hover {
    cursor: default; 
    width: clamp(300px, 60vw, 500px);
    padding: 30px;
-   border-radius: 10px;
+   border-radius: 8px;
    background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.2) 0%,
@@ -302,6 +298,7 @@ a:hover {
   text-align: left;
   border-right: 0.1px solid var(--light-navy);   /* салатовая окантовка справа */
   border-bottom: 0.1px solid var(--light-navy);  /* салатовая окантовка снизу */
+  border-radius: 6px;
 }
 .skills-list {
    display: grid;
