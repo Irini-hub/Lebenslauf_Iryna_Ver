@@ -158,7 +158,6 @@ a:hover {
    bottom: 0;
    left: -5%;
    width: 110%;
-  
    object-fit: cover;
    pointer-events: none;
 }
@@ -850,7 +849,6 @@ footer::after {
 .arrow-container .arrow:nth-child(1) { top: calc(50% + 0px); }
 .arrow-container .arrow:nth-child(2) { top: calc(50% + 10px); opacity: 0.5; }
 .arrow-container .arrow:nth-child(3) { top: calc(50% + 20px); opacity: 0.3; }
-
 .arrow-container:hover .arrow { opacity: 0.9; transform: translate(-50%, calc(-50% - 2px)) rotate(135deg); }
 
 
