@@ -43,7 +43,43 @@ a:hover {
    color: var(--green); 
 }
 
-/* Шапка меню */
+/* === CURSOR GLOW ====== */
+#cursor-glow{
+   position:fixed;
+   left:0; top:0;
+   width:var(--cursor-size);
+   height:var(--cursor-size);
+   pointer-events:none;  /* не мешает кликам */
+   border-radius:50%;
+   z-index:9999;
+   transform: translate(-50%, -50%);
+   background: radial-gradient(circle, rgba(100,255,218,0.045) 0%, rgba(100,255,218,0.015) 30%, transparent 60%);
+   transition: transform .05s linear;
+}
+/* --- Стили для светового пятна курсора --- */
+#cursor-spotlight {
+   /* 1. Позиционирование */
+   position: fixed; /* Остается на месте при прокрутке */
+   top: 0;
+   left: 0;
+   z-index: 9999; /* Всегда поверх всех элементов */
+   pointer-events: none; /* ВАЖНО: Делает элемент "прозрачным" для кликов мыши */
+   /* 2. Форма и размер (около 10 см) */
+   width: 350px;
+   height: 350px;   
+   /* 3. Центрирование пятна на кончике курсора */
+   transform: translate(-50%, -50%);   
+   /* 4. Сам эффект свечения с размытием */
+   background: radial-gradient(
+      circle,
+      rgba(100, 255, 218, 0.04) 0%, /* Цвет в центре (0.04-прозрачность) */
+      rgba(100, 255, 218, 0) 70%    /* Тот же цвет, но полностью прозрачный на краях */
+   );
+   /* 5. Плавность движения */
+   transition: transform 0.1s ease-out;
+}
+
+/* ====Шапка меню =====*/
 .header {
    position: sticky; /*→ всегда «прилипает» сверху*/
    top: 0;
@@ -66,7 +102,7 @@ a:hover {
 /* эффект скрытия меню*/
 .header.hidden { top: -100px; }
 
-/* Кнопка-бургер (скрыта на десктопе) */
+/* ===Кнопка-бургер (скрыта на десктопе) ===*/
 .menu-toggle {
    display: none;
    background: transparent;
@@ -88,7 +124,7 @@ a:hover {
 .menu-toggle.is-open span:nth-child(2) { opacity: 0; }
 .menu-toggle.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* ========Горизонтальное меню */
+/* ====Горизонтальное меню ===*/
 .main-menu {
    list-style: none;
    display: flex;
@@ -114,11 +150,32 @@ a:hover {
    color: #64ffda;  /* зелёный при наведении */
 }
 
-/*====Name ============*/
+/* Видимость секций*/
+.content-section {
+   opacity: 0;
+   transform: translateY(20px);
+   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+   visibility: hidden;
+}
+/*секция плавно «поднимается» и появляется*/
+.content-section.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+   visibility: visible;
+}
+
+/*====Name ====*/
 .name-heading {
    position: relative;
    font-weight: 900;
    font-size: 4em;
+}
+.name-heading {
+   margin-top: 0;  
+   margin-bottom: 0;    
+   font-size: clamp(40px, 8vw, 80px);  /* адаптивный размер - шрифт автоматически подстраивается под ширину экрана*/
+   color: var(--lightest-slate);
+   font-weight: 600;
 }
 .name-heading .text-wrapper {
    position: relative;
@@ -133,8 +190,25 @@ a:hover {
   line-height: 1em;
   transform-origin: 0 100%; /* точка снизу */
 }
+#name {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   min-height: 100vh;
+   padding: 0;
+}
+#name .intro {
+   color: var(--green);
+   font-family: var(--font-mono);
+   font-size: 16px;
+   margin-bottom: 0;
+}
+#name .summary {       
+   max-width: 700px; 
+   margin-top: 10px; 
+}
 
-/*=======Parallax==================*/
+/*=======Parallax=======*/
 .parallax {
    position: relative;
    top: 0; 
@@ -162,7 +236,7 @@ a:hover {
    pointer-events: none;
 }
 
-/* =======Стеклянный блок */
+/* Стеклянный блок */
 .glass-block {
    position: absolute;
    top: 50%;
@@ -226,47 +300,7 @@ a:hover {
    padding-left: 300px; /* отступ слева для секций Über mich, Ausbildung */
 }
 
-/* === CURSOR GLOW ====== */
-#cursor-glow{
-   position:fixed;
-   left:0; top:0;
-   width:var(--cursor-size);
-   height:var(--cursor-size);
-   pointer-events:none;  /* не мешает кликам */
-   border-radius:50%;
-   z-index:9999;
-   transform: translate(-50%, -50%);
-   background: radial-gradient(circle, rgba(100,255,218,0.045) 0%, rgba(100,255,218,0.015) 30%, transparent 60%);
-   transition: transform .05s linear;
-}
-
-/* -------Секция с именем ----------*/
-#name {
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-   min-height: 100vh;
-   padding: 0;
-}
-#name .intro {
-   color: var(--green);
-   font-family: var(--font-mono);
-   font-size: 16px;
-   margin-bottom: 0;
-}
-.name-heading {
-   margin-top: 0;  
-   margin-bottom: 0;    
-   font-size: clamp(40px, 8vw, 80px);  /* адаптивный размер - шрифт автоматически подстраивается под ширину экрана*/
-   color: var(--lightest-slate);
-   font-weight: 600;
-}
-#name .summary {       
-   max-width: 700px; 
-   margin-top: 10px; 
-}
-
-/* Über mich */
+/* ====Über mich =====*/
 .section-heading {
    display: flex;
    align-items: center;
@@ -351,7 +385,7 @@ a:hover {
    border-radius: 50%;
 }
 
-/*------- Berufserfahrung Section --------- */
+/*===== Berufserfahrung Section ======= */
 .experience-tabs { 
    display: flex; 
    min-height: 240px; } /*вертикальная полоска слева меню*/
@@ -407,9 +441,8 @@ a:hover {
 .tabs-panels ul li::before { content: '▹'; position: absolute; left: 0; color: var(--green); }
 .hidden { display: none; }
 
-/* -------Weiterbildung Section --------- */
-/*вертикальная линия с зелёными кружочками*/
-.timeline { position: relative; padding-left: 30px; border-left: 2px solid var(--light-navy); }
+/* ======Ausbildung Section ======= */
+.timeline { position: relative; padding-left: 30px; border-left: 2px solid var(--light-navy); }/*вертикальная линия с зелёными кружочками*/
 .timeline-item { margin-bottom: 30px; position: relative; }
 .timeline-item::before {
    content: '';
@@ -426,6 +459,10 @@ a:hover {
    color: var(--lightest-slate); 
    margin: 0 0 5px 0; 
 }
+.timeline-item h3:hover {
+   color: var(--green);
+   transition: color 0.3s ease; /* плавный переход */
+}
 .timeline-item p { 
    margin: 0; 
    font-size: 16px; 
@@ -440,7 +477,7 @@ a:hover {
    font-style: italic;
 } 
 
-/*Сертификаты*/
+/*=======Сертификаты в Weiterbildung=======*/
 .course-cards-container {
    display: grid;
    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -485,7 +522,6 @@ a:hover {
    visibility: visible;
    transform: translateY(0);
 }
-
 .certificate-preview img {
    max-width: 100%;
    max-height: 100%;
@@ -551,7 +587,7 @@ a:hover {
    color: var(--light-slate); 
 }
 
-/* -----Kontakt Section --------*/
+/* ======Kontakt Section ========*/
 .contact-menu-section {
    display: flex;
    flex-direction: column;
@@ -579,6 +615,10 @@ a:hover {
    background-color: var(--green);
    color: var(--dark-navy);
 }
+.contact-submenu button:not(.active):hover {
+   color: var(--green);
+   transition: color 0.3s ease;
+}
 .contact-details .contact-content { display: none; }
 .contact-details .contact-content.active { display: block; }
 /*Text unten Menu in Kontakt*/
@@ -601,7 +641,6 @@ footer {
    width: 100%; /* Занимает всю ширину родительского контейнера */
    position: relative;
 }
-
 /* Линия сверху футера */
 footer::before {
    content: "";
@@ -615,12 +654,10 @@ footer::before {
    transition: width 1.2s ease;
    opacity: 0.6; /* полупрозрачность */
 }
-
 /* Активное состояние — полоса тянется из центра */
 footer.visible::before {
    width: 100%;
 }
-
 /* Псевдоэлемент для эффекта затемнения и размытия (псевдоэлемент ::after) */
 footer::after {
    content: '';
@@ -635,22 +672,7 @@ footer::after {
    z-index: -1; /* Псевдоэлемент находится за содержимым footer */
 }
 
-/* Видимость секций*/
-.content-section {
-   opacity: 0;
-   transform: translateY(20px);
-   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-   visibility: hidden;
-}
-/*секция плавно «поднимается» и появляется*/
-.content-section.is-visible {
-   opacity: 1;
-   transform: translateY(0);
-   visibility: visible;
-}
-
 /* --- Стили для появления картинки сайта при наведении --- */
-
 /* Контейнер-ссылка для слова "Website" */
 .image-tooltip-trigger {
    position: relative; /* точка отсчета для позиционирования картинки */
@@ -684,7 +706,6 @@ footer::after {
 .image-tooltip-trigger:hover::after {
    width: 100%;
 }
-
 /* картинка-скриншот (изначально скрыта) */
 .tooltip-image-preview {
    /* Скрытие элемента */
@@ -705,7 +726,6 @@ footer::after {
    /* Плавность анимации */
    transition: opacity 0.4s ease, transform 0.4s ease;
 }
-
 /* Показываем картинку при наведении на ссылку */
 .image-tooltip-trigger:hover .tooltip-image-preview {
    opacity: 1;
@@ -746,29 +766,6 @@ footer::after {
    z-index: 1;
 }
 
-/* --- Стили для светового пятна курсора --- */
-#cursor-spotlight {
-   /* 1. Позиционирование */
-   position: fixed; /* Остается на месте при прокрутке */
-   top: 0;
-   left: 0;
-   z-index: 9999; /* Всегда поверх всех элементов */
-   pointer-events: none; /* ВАЖНО: Делает элемент "прозрачным" для кликов мыши */
-   /* 2. Форма и размер (около 10 см) */
-   width: 350px;
-   height: 350px;   
-   /* 3. Центрирование пятна на кончике курсора */
-   transform: translate(-50%, -50%);   
-   /* 4. Сам эффект свечения с размытием */
-   background: radial-gradient(
-      circle,
-      rgba(100, 255, 218, 0.04) 0%, /* Цвет в центре (0.04-прозрачность) */
-      rgba(100, 255, 218, 0) 70%    /* Тот же цвет, но полностью прозрачный на краях */
-   );
-   /* 5. Плавность движения */
-   transition: transform 0.1s ease-out;
-}
-
 /* ---- Social Links ---- */
 .social-links {
    display: flex;
@@ -791,7 +788,6 @@ footer::after {
 }
 
 /*========ScrollUp===========*/
-
 /* Кнопка «вверх» в правом нижнем углу */
 .arrow-container {
    position: fixed;
@@ -844,7 +840,7 @@ footer::after {
 .arrow-container:hover .arrow { opacity: 0.9; transform: translate(-50%, calc(-50% - 2px)) rotate(135deg); }
 
 
-/* Адаптивность */
+/* ***************Адаптивность*********** */
 @media screen and (max-width: 991px) {
    .glass-block {
     left: 50%;                        /* центрируем */
