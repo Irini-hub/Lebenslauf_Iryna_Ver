@@ -1,19 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {  // Весь код запускается только когда DOM загружен
+    
    
-   // ===== прячем/запускаем шапку при скролле =====
-   let lastScrollY = window.scrollY; //запоминаем предыдущую позицию скролла
-   const header = document.querySelector('.header');
-
-   window.addEventListener('scroll', () => {
-      if (lastScrollY < window.scrollY && window.scrollY > 100) { //Если пользователь скроллит вниз / > 100 → чтобы сразу при загрузке страницы шапка не исчезала 
-         header.classList.add('hidden');                          //→ шапка скрывается
-      } else {
-         header.classList.remove('hidden');                       //→ шапка появляется
-      }
-      lastScrollY = window.scrollY;
-   });
-
-// ==== Логика для светового пятна курсора ======
+   // ==== Логика для светового пятна курсора ======
    const spotlight = document.getElementById('cursor-spotlight');
    if (spotlight) { // Проверяем, существует ли элемент
       window.addEventListener('mousemove', (e) => {   //→ отслеживает движение мышки
@@ -23,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {  // Весь код зап
       });
    }
   
-  // ===== Анимация появления секций при скролле =====
-  const sections = document.querySelectorAll('.content-section');
-  const sectionObserver = new IntersectionObserver((entries) => {  //следит, когда элемент входит в область видимости
-      entries.forEach(entry => {
-         if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible'); //При появлении → добавляется класс is-visible 
-         }
-      });
-  }, { rootMargin: '0px', threshold: 0.18 });  //→ сработает, если видно хотя бы 18% блока
-  sections.forEach(section => sectionObserver.observe(section)); //Для каждого блока section начни наблюдать через observer
+   // ===== Анимация появления секций при скролле =====
+   const sections = document.querySelectorAll('.content-section');
+   const sectionObserver = new IntersectionObserver((entries) => {  //следит, когда элемент входит в область видимости
+         entries.forEach(entry => {
+            if (entry.isIntersecting) {
+               entry.target.classList.add('is-visible'); //При появлении → добавляется класс is-visible 
+            }
+         });
+   }, { rootMargin: '0px', threshold: 0.18 });  //→ сработает, если видно хотя бы 18% блока
+   sections.forEach(section => sectionObserver.observe(section)); //Для каждого блока section начни наблюдать через observer
 
    // ===== Tabs / Highlighter logic =====
    //Находим все кнопки-вкладки (tabs), панели (panels) и подсветку (highlighter).Eсли вкладок нет → код не запускается
@@ -146,28 +134,28 @@ document.addEventListener('DOMContentLoaded', () => {  // Весь код зап
       });
    });
 
-   ///================ Parallax ==================//
-function applyParallax(x, y) {
-  document.querySelectorAll(".layer").forEach(layer => {
-    const speed = layer.getAttribute("data-speed");
-    const offsetX = (window.innerWidth - x * speed) / 100;
-    const offsetY = (window.innerHeight - y * speed) / 100;
-    layer.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
-  });
-}
+   //================ Parallax ==================//
+   function applyParallax(x, y) {
+   document.querySelectorAll(".layer").forEach(layer => {
+      const speed = layer.getAttribute("data-speed");
+      const offsetX = (window.innerWidth - x * speed) / 100;
+      const offsetY = (window.innerHeight - y * speed) / 100;
+      layer.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
+   });
+   }
 
-// ---- Десктоп (мышь) ----
-document.addEventListener("mousemove", (e) => {
-  applyParallax(e.pageX, e.pageY);
-});
+   // ---- Десктоп (мышь) ----
+   document.addEventListener("mousemove", (e) => {
+   applyParallax(e.pageX, e.pageY);
+   });
 
-// ---- Мобильные (пальцы) ----
-document.addEventListener("touchmove", (e) => {
-  if (e.touches.length > 0) {
-    const touch = e.touches[0];
-    applyParallax(touch.pageX, touch.pageY);
-  }
-}, { passive: true });
+   // ---- Мобильные (пальцы) ----
+   document.addEventListener("touchmove", (e) => {
+   if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      applyParallax(touch.pageX, touch.pageY);
+   }
+   }, { passive: true });
 
 
    // ======= Мобильное меню (бургер) =======
@@ -278,34 +266,51 @@ document.addEventListener("touchmove", (e) => {
      toggleScrollUp();
   }
 
+  // ======= Name effect =======
+   var textWrapper = document.querySelector('.name-heading .letters');
+   textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
-  /// ======= Name effect =======
+   anime.timeline({ autoplay: true, loop: false })
+   .add({
+      targets: '.name-heading .letter',
+      rotateY: [-90, 0],
+      duration: 1300,
+      delay: (_, i) => 45 * i,
+      easing: 'easeOutExpo'
+   });
+// ===== прячем/показываем шапку при скролле =====
+let lastScrollY = 0;
+const header = document.querySelector('.header');
 
-var textWrapper = document.querySelector('.name-heading .letters');
-textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+if (header) {
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
 
-anime.timeline({ autoplay: true, loop: false })
-  .add({
-    targets: '.name-heading .letter',
-    rotateY: [-90, 0],
-    duration: 1300,
-    delay: (_, i) => 45 * i,
-    easing: 'easeOutExpo'
+    // Прокрутка вниз → спрятать
+    if (currentScroll > lastScrollY && currentScroll > 100) {
+      header.classList.add('hidden');
+    } 
+    // Прокрутка вверх → показать
+    else {
+      header.classList.remove('hidden');
+    }
+
+    lastScrollY = currentScroll;
   });
-
+}
    //===========Footer===========
    const footer = document.querySelector("footer");
 
-  const footerObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-     if (entry.isIntersecting) {
-        footer.classList.add("visible");// появляется
-     } else {
-        footer.classList.remove("visible"); // исчезает
-     }
-     });
-  }, { threshold: 0.3 }); // срабатывает, когда футер хотя бы на 30% виден
-  footerObserver.observe(footer);
+   const footerObserver = new IntersectionObserver(entries => {
+   entries.forEach(entry => {
+      if (entry.isIntersecting) {
+         footer.classList.add("visible");// появляется
+      } else {
+         footer.classList.remove("visible"); // исчезает
+      }
+      });
+   }, { threshold: 0.3 }); // срабатывает, когда футер хотя бы на 30% виден
+   footerObserver.observe(footer);
 
-  window.addEventListener('beforeunload', () => { clearTailTimer(); });
-});
+   window.addEventListener('beforeunload', () => { clearTailTimer(); });
+   });
